@@ -9,6 +9,7 @@ richiede i seguenti parametri di GET
 "endtime": fine periodo in formato 'yyy-mm-dd' (optionale, se assente fino alla fine)
 Restituisce tutti gli eventi di allarme come array JSON:
 {"response":"ok","data":[{"myid":"id_code","mymac":"##:##:##:##:##:##","othid":"id_code","othmac":"##:##:##:##:##:##","st":"0|1","ts":"yyyy-mm-dd hh:mm:ss" ,"dur":"######"} ,...]}
+18/95/2021 commit github
 ***************************************************************/
 //estrae i parametri di GET
 $btmac = $_REQUEST['btmac'];
