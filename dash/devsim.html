@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="it-IT">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Device simulator</title>
+<script type='text/javascript' src='../js/jquery/jquery.js?ver=1.12.4-wp'></script>
+<script type='text/javascript' src='../js/jquery/jquery-migrate.min.js?ver=1.4.1'></script>
+<script type='text/javascript' src="../js/jquery-ui-1.12.1.custom/jquery-ui.js"></script>
+<link href="../css/site.css" rel="stylesheet">
+<link href="../css/bootstrap.css" rel="stylesheet">
+<link href="../js/jquery-ui-1.12.1.custom/jquery-ui.css"rel="stylesheet" >
+</head>
+<body>
+<h1>Simulatore di dispositivi</h1>
+<hr>
+<b>STUDENTE 1</b><select name="btmac1" id="btmac1"></select>
+<b>STUDENTE 2</b><select name="btmac2" id="btmac2"></select>
+<input type='button' value='genera allarme' onClick='generaallarme()' />
+<input type='button' value='rimuovi allarme' onClick='rimuoviallarme()' />
+<hr>
+<h5 ><i>REQUEST:</i><span id="rq">?</span></h5>
+<h5><i>RESPONSE:</i><span id="rs">?</span></h5>
+<hr>
+</body>
+</html>
+<script type="text/javascript">
+getall();
+function getall() {
+	//invia richiesta ed attende la risposta
+	console.log("start build");
+	jQuery.ajax({
+		url: "../api/getall.php",
+		dataType: 'html',
+		success: function (data) {
+					var things = jQuery.parseJSON( data ).data;
+					//costruisce la tabella
+					things.forEach(function(t){
+						//aggiunge option alla lista
+						jQuery('#btmac1').append(jQuery('<option>', {value:t.btmac, text:t.id+'('+t.btmac+')'}));
+						jQuery('#btmac2').append(jQuery('<option>', {value:t.btmac, text:t.id+'('+t.btmac+')'}));
+					});
+				},
+        error: function(){
+					//error trap
+                    jQuery("#contenitore").html("AJAX error");
+                },
+		});
+	console.log("end build");
+	
+}
+function generaallarme(){
+	var st1=jQuery('#btmac1 option:selected').val();
+	var st2=jQuery('#btmac2 option:selected').val();
+	var api='../api/sendevts.php?parms={"mymac":"'+st1+'","events":[{"evt":"1","adr":"'+st2+'"}]}';
+	console.log(api);
+	if(st1!=st2) {
+		//invia richiesta ed attende la risposta
+		console.log("start open alarm");
+		jQuery('#rq').html(api);
+		jQuery.ajax({
+			url: api,
+			dataType: 'html',
+			success: function (data) {
+					jQuery('#rs').html(data);			
+					var ris = jQuery.parseJSON( data ).status;
+					console.log(ris);
+				},
+			error: function(){
+					//error trap
+                    jQuery("#contenitore").html("AJAX error");
+                },
+			});
+	}
+	else {
+		alert("I due studenti devono essere diversi");
+	}
+	console.log("end open alarm");
+}
+function rimuoviallarme(){
+	var st1=jQuery('#btmac1 option:selected').val();
+	var st2=jQuery('#btmac2 option:selected').val();
+	var api='../api/sendevts.php?parms={"mymac":"'+st1+'","events":[{"evt":"0","adr":"'+st2+'"}]}';
+	console.log(api);
+	if(st1!=st2) {
+		//invia richiesta ed attende la risposta
+		console.log("start close alarm");
+		jQuery('#rq').html(api);		
+		jQuery.ajax({
+			url: api,
+			dataType: 'html',
+			success: function (data) {
+					jQuery('#rs').html(data);
+					var ris = jQuery.parseJSON( data ).status;
+					console.log(ris);
+				},
+			error: function(){
+					//error trap
+                    jQuery("#contenitore").html("AJAX error");
+                },
+			});
+	}
+	else {
+		alert("I due studenti devono essere diversi");
+	}
+	console.log("end open alarm");
+}
+</script>

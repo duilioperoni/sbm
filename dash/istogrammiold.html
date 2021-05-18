@@ -1,0 +1,42 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>Istogrammi</title>
+<script type='text/javascript' src='../js/jquery/jquery.js?ver=1.12.4-wp'></script>
+<script type='text/javascript' src='../js/jquery/jquery-migrate.min.js?ver=1.4.1'></script>
+<script type='text/javascript' src="../js/jquery-ui-1.12.1.custom/jquery-ui.js"></script>
+<link href="../css/site.css" rel="stylesheet">
+<link href="../css/bootstrap.css" rel="stylesheet">
+<link href="../js/jquery-ui-1.12.1.custom/jquery-ui.css"rel="stylesheet" >
+<script type="text/javascript" src="../js/jquery/jquery.canvasjs.min.js"></script>
+<script>
+window.onload = function () {
+
+//Better to construct options first and then pass it as a parameter
+var options = {
+	title: {
+		text: "Allarmi per giorno"              
+	},
+	data: [              
+	{
+		// Change type to "doughnut", "line", "splineArea", etc.
+		type: "column",
+		dataPoints: [
+			{ label: "apple",  y: 10  },
+			{ label: "orange", y: 15  },
+			{ label: "banana", y: 25  },
+			{ label: "mango",  y: 30  },
+			{ label: "grape",  y: 28  }
+		]
+	}
+	]
+};
+
+jQuery("#chartContainer").CanvasJSChart(options);
+}
+</script>
+</head>
+<body>
+<div id="chartContainer" style="height: 370px; max-width: 920px; margin: 0px auto;"></div>
+</body>
+</html>

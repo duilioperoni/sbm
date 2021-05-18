@@ -1,0 +1,65 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Istogrammi</title>
+<script src="../js/canvasjs/jquery-1.11.1.min.js"></script>
+<script src="../js/canvasjs/canvasjs.min.js"></script> 
+<script>
+
+var chart = null;
+var dataPoints = [];
+
+window.onload = function() {
+
+chart = new CanvasJS.Chart("chartContainer", {
+	animationEnabled: true,
+	zoomEnabled: true,
+	backgroundColor: "#F5F5F5",
+	culture:  "it",
+	theme: "light1",
+	title: {
+		text: "Allarmi per giorno"
+	},
+	axisY: {
+		title: "Allarmi",
+		titleFontSize: 24
+	},
+	data: [{
+		type: "column",
+		color:"teal",
+		yValueFormatString: "#,### Allarmi",
+		dataPoints: dataPoints
+	}]
+});
+
+
+$.getJSON("../api/gethistxday2.php?strtime=2021-04-01&endtime=2021-04-30", callback);	
+
+}
+
+function callback(data) {	
+	console.log("inizio callback");
+	var unit=0;
+	for (var i = 0; i < data.dps.length; i++) {
+		console.log(data.dps[i].date);
+		console.log(data.dps[i].units);
+		unit=parseInt(data.dps[i].units);
+		console.log(unit);
+		dataPoints.push({
+			x: new Date(data.dps[i].date),
+//			y: data.dps[i].units
+			y: unit
+		});
+		//unit++;
+	}
+	chart.render(); 
+	console.log("fine callback");
+}
+</script>
+</head>
+<body>
+<div id="chartContainer" style="height: 370px; max-width: 920px; margin: 0px auto;"></div>
+<div id="debug"></div>
+</body>
+</html>
