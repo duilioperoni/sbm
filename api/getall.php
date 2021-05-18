@@ -6,6 +6,7 @@ Chiamata dalla pagina Dashboard per la inizializzazione della pagina
 Nessun parametro
 Restuisce tutti i dispositivi con un array JSON:
 {"response":"ok","data":[{"id":"id_code","description":"descr_id","type:"M|W|H|A","status":"0|1|2|3","sensore:"0|1","timestamp":"##########"}, ...]} | "fail_desc" }
+18/05/2021 caricata su github
 ***************************************************************/
 //connette al database
 $mysqli = new mysqli('localhost','standbymeuser','qwerty','standbyme');
